@@ -1,3 +1,3 @@
 # MSOE_ML
 
-# Only Basic ANN actually works, run main.py
+# Basic ANN  & DenseNet121Test work, run main.py

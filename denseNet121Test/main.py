@@ -5,7 +5,7 @@ import torch.nn as nn
 from torchvision import datasets, transforms
 from IPython.display import Image
 from torch import optim
-from BasicANN import Net
+from DenseNet121 import model as DenseNet121Model
 
 def main(): 
     # set up device
@@ -13,14 +13,14 @@ def main():
     print('Using device:', device)
 
     # instatiate the model
-    model = Net()
-    model = model.to(device)
+    model = None
+    model = DenseNet121Model.to(device)
 
     DATA_DIRECTORY = 'datasetsforeverything/sample'
 
     transform = transforms.Compose([transforms.Resize(255),
                                 transforms.CenterCrop(224),
-                                transforms.Grayscale(num_output_channels=1),
+                                # transforms.Grayscale(num_output_channels=1),
                                 transforms.ToTensor()])
     
     dataset = datasets.ImageFolder(DATA_DIRECTORY, transform=transform)

@@ -7,6 +7,8 @@ from IPython.display import Image
 from torch import optim
 from BasicANN import Net
 
+DATA_DIRECTORY = 'datasetsforeverything/sample'
+
 def main(): 
     # set up device
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -15,8 +17,6 @@ def main():
     # instatiate the model
     model = Net()
     model = model.to(device)
-
-    DATA_DIRECTORY = 'datasetsforeverything/sample'
 
     transform = transforms.Compose([transforms.Resize(255),
                                 transforms.CenterCrop(224),
@@ -49,6 +49,7 @@ def main():
     model.eval()
     test_loss = 0
     correct = 0
+    
     with torch.no_grad():
         for data, target in dataloader:
             data, target = data.to(device), target.to(device)

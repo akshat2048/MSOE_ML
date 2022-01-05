@@ -7,6 +7,8 @@ from IPython.display import Image
 from torch import optim
 from DenseNet121 import model as DenseNet121Model
 
+DATA_DIRECTORY = 'datasetsforeverything/sample'
+
 def main(): 
     # set up device
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -15,8 +17,6 @@ def main():
     # instatiate the model
     model = None
     model = DenseNet121Model.to(device)
-
-    DATA_DIRECTORY = 'datasetsforeverything/sample'
 
     transform = transforms.Compose([transforms.Resize(255),
                                 transforms.CenterCrop(224),

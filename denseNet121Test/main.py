@@ -3,12 +3,12 @@ from torch.utils.data import DataLoader, Dataset, dataloader
 import torch
 import torch.nn as nn
 from torchvision import datasets, transforms
-from IPython.display import Image
+# from IPython.display import Image
 from torch import optim
 from DenseNet121 import model as DenseNet121Model
 
-TRAINING_DIRECTORY = 'MSOE_ML/datasetsforeverything/sample'
-TESTING_DIRECTORY = 'MSOE_ML/datasetsforeverything/sampletest'
+TRAINING_DIRECTORY = 'datasetsforeverything\NIH_data\images'
+TESTING_DIRECTORY = 'datasetsforeverything\NIH_data\imagesTest'
 LEARNING_RATE = 0.01
 BATCH_SIZE = 2
 EPOCHS = 4

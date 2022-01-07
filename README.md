@@ -1,8 +1,8 @@
-# Lung Anomaly Identification via ML
+# *Lung Anomaly Identification via ML
 
 ## BasicANN & DenseNet121Test work, run main.py
 
-## https://nihcc.app.box.com/v/ChestXray-NIHCC - images NOT in repo
+## https://nihcc.app.box.com/v/ChestXray-NIHCC - NIH images NOT in repo
 
 ## Steps to run NIH stuff
 

@@ -45,8 +45,10 @@ def main():
     #Train the model
     model.train()
 
+    correct = 0
+
     for e in range(EPOCHS):
-        running_loss = 0
+        running_loss_for_this_epoch = 0
         for id, (images, labels) in enumerate(trainLoader):
             data, target = images.to(device), labels.to(device)
 
@@ -55,6 +57,9 @@ def main():
 
             # calculate the output
             output = model(data)
+
+            predicted_value = output.max(1, keepdim=True)[1]
+            correct += predicted_value.eq(target.view_as(predicted_value)).sum().item()
 
             # calculate the loss
             loss = loss_function(output, target)
@@ -66,17 +71,19 @@ def main():
             optimizer.step()
 
             # update loss
-            running_loss += loss.item()
+            running_loss_for_this_epoch += loss.item()
         
         # print stats
-        print('Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.4f}'.format(
-            e, id * len(data), len(trainLoader.dataset),
-            100. * id / len(trainLoader), running_loss))
+        print('Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.2e}'.format(
+            e, correct, len(trainLoader.dataset),
+            100*(correct / len(trainLoader.dataset)), running_loss_for_this_epoch))
+        correct = 0
+        running_loss_for_this_epoch = 0
 
     # Test the model
     model.eval()
 
-    running_loss = 0
+    running_loss_for_this_epoch = 0
     correct = 0
 
     with torch.no_grad():
@@ -90,17 +97,17 @@ def main():
             loss = loss_function(output, target)
 
             # update loss
-            running_loss += loss.item()
+            running_loss_for_this_epoch += loss.item()
         
             # get predicted value
             predicted_value = output.max(1, keepdim=True)[1]
             correct += predicted_value.eq(target.view_as(predicted_value)).sum().item()
 
     # average the loss
-    running_loss /= len(testLoader.dataset)
+    running_loss_for_this_epoch /= len(testLoader.dataset)
 
     # print stats
-    print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(running_loss, correct, len(testLoader.dataset), 100. * (correct / len(testLoader.dataset))))
+    print('\nTest set: Average loss: {:.2e}, Accuracy: {}/{} ({:.0f}%)\n'.format(running_loss_for_this_epoch, correct, len(testLoader.dataset), 100. * (correct / len(testLoader.dataset))))
     
     
 

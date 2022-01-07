@@ -7,8 +7,8 @@ from torchvision import datasets, transforms
 from torch import optim
 from DenseNet121 import model as DenseNet121Model
 
-TRAINING_DIRECTORY = 'datasetsforeverything\NIH_data\images'
-TESTING_DIRECTORY = 'datasetsforeverything\NIH_data\imagesTest'
+TRAINING_DIRECTORY = 'datasetsforeverything/NIH_data/images'
+TESTING_DIRECTORY = 'datasetsforeverything/NIH_data/imagesTest'
 LEARNING_RATE = 0.01
 BATCH_SIZE = 2
 EPOCHS = 4

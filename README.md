@@ -1,8 +1,8 @@
-# MSOE_ML
+# Lung Anomoly Identification via ML
 
-# Basic ANN  & DenseNet121Test work, run main.py
+# BasicANN & DenseNet121Test work, run main.py
 
-# Images are not on the repo, download from site and place in correct folder and run
+# https://nihcc.app.box.com/v/ChestXray-NIHCC - images NOT in repo
 
 # Steps to run NIH stuff
 

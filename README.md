@@ -2,7 +2,7 @@
 
 ## BasicANN & DenseNet121Test work, run main.py
 
-## https://nihcc.app.box.com/v/ChestXray-NIHCC - NIH images NOT in repo
+## [NIH images](https://nihcc.app.box.com/v/ChestXray-NIHCC) NOT in repo
 
 ## Steps to run NIH stuff
 

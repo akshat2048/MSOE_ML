@@ -1,4 +1,4 @@
-# *Lung Anomaly Identification via ML
+# *Lung Anomaly Identification via ML*
 
 ## BasicANN & DenseNet121Test work, run main.py
 

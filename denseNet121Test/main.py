@@ -6,12 +6,13 @@ from torchvision import datasets, transforms
 # from IPython.display import Image
 from torch import optim
 from DenseNet121 import model as DenseNet121Model
+from environmentsettings import settings
 
-TRAINING_DIRECTORY = '../../NIH_data/images'
-TESTING_DIRECTORY = '../../NIH_data/imagesTest'
-LEARNING_RATE = 0.01
-BATCH_SIZE = 32
-EPOCHS = 4
+TRAINING_DIRECTORY = settings['TRAINING_DIRECTORY']
+TESTING_DIRECTORY = settings['TESTING_DIRECTORY']
+LEARNING_RATE = settings['LEARNING_RATE']
+BATCH_SIZE = settings['BATCH_SIZE']
+EPOCHS = settings['EPOCHS']
 
 def main(): 
     # set up device

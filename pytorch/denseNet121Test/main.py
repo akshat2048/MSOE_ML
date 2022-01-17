@@ -48,10 +48,16 @@ def main():
 
     correct = 0
 
+    predicted = []
+    targets = []
+    corrects = []
+    labelings = []
+
     for e in range(EPOCHS):
         running_loss_for_this_epoch = 0
         for id, (images, labels) in enumerate(trainLoader):
             data, target = images.to(device), labels.to(device)
+            
 
             # zero the parameter gradients
             optimizer.zero_grad()
@@ -60,7 +66,13 @@ def main():
             output = model(data)
 
             predicted_value = output.max(1, keepdim=True)[1]
-            correct += predicted_value.eq(target.view_as(predicted_value)).sum().item()
+            isCorrect = predicted_value.eq(target.view_as(predicted_value)).sum().item()
+            correct += isCorrect
+
+            predicted.append(predicted_value)
+            targets.append(target)
+            corrects.append(isCorrect)
+            labelings.append(id)
 
             # calculate the loss
             loss = loss_function(output, target)
@@ -87,6 +99,16 @@ def main():
     running_loss_for_this_epoch = 0
     correct = 0
 
+    print("The predicted and target values are: ")
+
+    for (pred, target, c, label) in zip(predicted, targets, corrects, labelings):
+        print(f"For this {label} image, ", "The predicted value is:",pred, ", the actual value is:", target, ". The model found this to be correct:", c)
+
+    predicted = []
+    targets = []
+    corrects = []
+    labelings = []
+
     with torch.no_grad():
         for images, labels in testLoader:
             data, target = images.to(device), labels.to(device)
@@ -102,10 +124,20 @@ def main():
         
             # get predicted value
             predicted_value = output.max(1, keepdim=True)[1]
-            correct += predicted_value.eq(target.view_as(predicted_value)).sum().item()
+            isCorrect = predicted_value.eq(target.view_as(predicted_value)).sum().item()
+            correct += isCorrect
+
+            predicted.append(predicted_value)
+            targets.append(target)
+            corrects.append(isCorrect)
+            labelings.append(id)
 
     # average the loss
     running_loss_for_this_epoch /= len(testLoader.dataset)
+
+    print("The predicted and target values are: ")
+    for (pred, target, c, label) in zip(predicted, targets, corrects, labelings):
+        print(f"For this {label} image, ", "The predicted value is:",pred, ", the actual value is:", target, ". The model found this to be correct:", c)
 
     # print stats
     print('\nTest set: Average loss: {:.2e}, Accuracy: {}/{} ({:.0f}%)\n'.format(running_loss_for_this_epoch, correct, len(testLoader.dataset), 100. * (correct / len(testLoader.dataset))))

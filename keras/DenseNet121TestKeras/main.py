@@ -1,8 +1,6 @@
 from tensorflow import keras
 from tensorflow.keras.applications import DenseNet121
 import tensorflow.keras.layers as layers
-import pandas as pd
-import numpy as np
 
 import environmentsettings
 
@@ -11,9 +9,8 @@ def create_training_data_set(print_dataset=False):
     train_dataset = keras.preprocessing.image_dataset_from_directory(
         environmentsettings.settings['TRAINING_DIRECTORY'], 
         batch_size=environmentsettings.settings['BATCH_SIZE'], 
-        image_size=(256, 256), 
-        color_mode='grayscale', 
-        crop_to_aspect_ratio=True,
+        image_size=(224, 224), 
+        color_mode='rgb',
         label_mode='binary'
     )
 
@@ -45,9 +42,8 @@ def create_validation_data_set(print_dataset=False):
     train_dataset = keras.preprocessing.image_dataset_from_directory(
         environmentsettings.settings['TESTING_DIRECTORY'], 
         batch_size=environmentsettings.settings['BATCH_SIZE'], 
-        image_size=(256, 256), 
-        color_mode='grayscale', 
-        crop_to_aspect_ratio=True,
+        image_size=(224, 224), 
+        color_mode='rgb',
         label_mode='binary'
     )
 
@@ -76,22 +72,23 @@ def create_validation_data_set(print_dataset=False):
 
 def create_model():
     model = DenseNet121(
-        include_top=False,
-        weights='imagenet',
-        input_shape=(256, 256, 1),
-        pooling='avg'
+        include_top=True,
+        pooling='avg',
+        weights=None,
+        classes=1
     )
     
     return model
 
 def main():
+    print("Starting")
     train_dataset = create_training_data_set()
     model = create_model()
 
     model.compile(
         optimizer=keras.optimizers.Adam(lr=environmentsettings.settings['LEARNING_RATE']),
-        loss=keras.losses.binary_crossentropy(from_logits=True),
-        metrics=[keras.metrics.AUC(from_logits=True), keras.metrics.BinaryAccuracy()]
+        loss='binary_crossentropy',
+        metrics=['Accuracy']
     )
 
     history = model.fit(
@@ -104,9 +101,8 @@ def main():
     # https://keras.io/preprocessing/image/
 
 
-main()
-
-
+if __name__ == "__main__":
+    main()
 
 
 

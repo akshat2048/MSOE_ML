@@ -82,6 +82,7 @@ def create_model():
 def main():
     print("Starting")
     train_dataset = create_training_data_set()
+    valid_dataset = create_validation_data_set()
     model = create_model()
     model.layers[-1].activation = keras.activations.sigmoid
     # model = keras.utils.apply_modifications(model)
@@ -96,7 +97,9 @@ def main():
     history = model.fit(
         train_dataset,
         epochs=environmentsettings.settings['EPOCHS'],
-        # batch_size = environmentsettings.settings['BATCH_SIZE']
+        batch_size = environmentsettings.settings['BATCH_SIZE']
+        validation_data=valid_dataset,
+        epochs=environmentsettings.settings['EPOCHS']
     )
 
     print(history.history)

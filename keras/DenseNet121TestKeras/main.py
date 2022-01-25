@@ -73,7 +73,6 @@ def create_validation_data_set(print_dataset=False):
 def create_model():
     model = DenseNet121(
         include_top=True,
-        pooling='avg',
         weights=None,
         classes=1
     )
@@ -84,16 +83,20 @@ def main():
     print("Starting")
     train_dataset = create_training_data_set()
     model = create_model()
+    model.layers[-1].activation = keras.activations.sigmoid
+    # model = keras.utils.apply_modifications(model)
 
     model.compile(
-        optimizer=keras.optimizers.Adam(lr=environmentsettings.settings['LEARNING_RATE']),
+        optimizer= keras.optimizers.SGD(learning_rate=environmentsettings.settings['LEARNING_RATE']),
         loss='binary_crossentropy',
-        metrics=['Accuracy']
+        metrics=['accuracy']
     )
-
+    # optimizer = keras.optimizers.Adam(lr=environmentsettings.settings['LEARNING_RATE'])
+    # TRY ADAM WHEN YOU GET HOME, USING SGD RIGHT NOW
     history = model.fit(
         train_dataset,
-        epochs=environmentsettings.settings['EPOCHS']
+        epochs=environmentsettings.settings['EPOCHS'],
+        # batch_size = environmentsettings.settings['BATCH_SIZE']
     )
 
     print(history.history)

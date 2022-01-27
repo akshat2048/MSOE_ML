@@ -1,8 +1,46 @@
+
 from tensorflow import keras
 from tensorflow.keras.applications import DenseNet121
 import tensorflow.keras.layers as layers
 
+import tensorflow.data.AUTOTUNE as AUTOTUNE
+
+
 import environmentsettings
+
+def main():
+    print("Starting")
+    train_dataset = augment_datasets()
+    valid_dataset = create_validation_data_set()
+    model = create_model()
+
+    model.compile(
+        optimizer=keras.optimizers.Adam(lr=environmentsettings.settings['LEARNING_RATE']),
+        loss='binary_crossentropy',
+        metrics=['Accuracy']
+    )
+
+    history = model.fit(
+        train_dataset,
+        validation_data=valid_dataset,
+        epochs=environmentsettings.settings['EPOCHS']
+    )
+
+    
+
+    print(history.history)
+
+def augment_datasets():
+    data_augmentation = keras.Sequential(
+        layers.experimental.preprocessing.RandomFlip('horizontal'),
+        layers.experimental.preprocessing.RandomRotation(0.1),
+        layers.experimental.preprocessing.RandomContrast(0.1),
+        layers.experimental.preprocessing.RandomTranslation(0.1),
+    )
+    
+    augmented_dataset = create_training_data_set(print_dataset=False).map(lambda x, y: (data_augmentation(x, training=True), y), num_parallel_calls=AUTOTUNE)
+
+    return augmented_dataset.prefetch(buffer_size=AUTOTUNE)
 
 def create_training_data_set(print_dataset=False):
     # Create a dataset
@@ -37,6 +75,15 @@ def create_training_data_set(print_dataset=False):
 
     return train_dataset
 
+def create_model():
+    model = DenseNet121(
+        include_top=True,
+        pooling='avg',
+        weights=None,
+    )
+    
+    return model
+
 def create_validation_data_set(print_dataset=False):
     # Create a dataset
     train_dataset = keras.preprocessing.image_dataset_from_directory(
@@ -69,44 +116,3 @@ def create_validation_data_set(print_dataset=False):
         print(labels.dtype)
 
     return train_dataset
-
-def create_model():
-    model = DenseNet121(
-        include_top=True,
-        pooling='avg',
-        weights=None,
-        classes=1
-    )
-    
-    return model
-
-def main():
-    print("Starting")
-    train_dataset = create_training_data_set()
-    valid_dataset = create_validation_data_set()
-    model = create_model()
-
-    model.compile(
-        optimizer=keras.optimizers.Adam(lr=environmentsettings.settings['LEARNING_RATE']),
-        loss='binary_crossentropy',
-        metrics=['Accuracy']
-    )
-
-    history = model.fit(
-        train_dataset,
-        validation_data=valid_dataset,
-        epochs=environmentsettings.settings['EPOCHS']
-    )
-
-    
-
-    print(history.history)
-    # preprocess the data
-    # https://keras.io/preprocessing/image/
-
-
-if __name__ == "__main__":
-    main()
-
-
-

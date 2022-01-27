@@ -42,7 +42,7 @@ def create_model():
     model = DenseNet121(
         include_top=True,
         weights=None,
-        classes=1
+        classes=15
     )
     
     return model
@@ -52,19 +52,20 @@ def main():
     train_dataset = create_training_data_set()
     # print(np.concatenate([y for x, y in train_dataset], axis = 0).shape)
     model = create_model()
-    # model.layers[-1].activation = keras.activations.sigmoid
+    model.layers[-1].activation = keras.activations.relu
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
         optimizer= keras.optimizers.SGD(learning_rate=environmentsettings.setting_categorical['LEARNING_RATE']),
-        loss='sparse_categorical_crossentropy',
+        loss='categorical_crossentropy',
         metrics=['accuracy']
     )
     # optimizer = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
     # TRY ADAM WHEN YOU GET HOME, USING SGD RIGHT NOW
     history = model.fit(
         train_dataset,
-        epochs=environmentsettings.setting_categorical['EPOCHS']
+        epochs=environmentsettings.setting_categorical['EPOCHS'],
+        validation_data = create_validation_data_set()
     )
 
     print(history.history)

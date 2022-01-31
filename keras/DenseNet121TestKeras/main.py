@@ -4,12 +4,14 @@ import tensorflow.keras.layers as layers
 
 import environmentsettings
 
+
 def create_training_data_set(print_dataset=False):
     # Create a dataset
+    # Use CSV to select certain type of condition
     train_dataset = keras.preprocessing.image_dataset_from_directory(
-        environmentsettings.setting_binary['TRAINING_DIRECTORY'], 
-        batch_size=environmentsettings.setting_binary['BATCH_SIZE'], 
-        image_size=(224, 224), 
+        environmentsettings.settings['TRAINING_DIRECTORY'],
+        batch_size=environmentsettings.settings['BATCH_SIZE'],
+        image_size=(224, 224),
         color_mode='rgb',
         label_mode='binary'
     )
@@ -28,21 +30,22 @@ def create_training_data_set(print_dataset=False):
     # For demonstration, iterate over the batches yielded by the dataset.
     if not print_dataset:
         return train_dataset
-    
+
     for data, labels in train_dataset:
         print(data.shape)
         print(data.dtype)
-        print(labels.shape) 
+        print(labels.shape)
         print(labels.dtype)
 
     return train_dataset
 
+
 def create_validation_data_set(print_dataset=False):
     # Create a dataset
-    test_dataset = keras.preprocessing.image_dataset_from_directory(
-        environmentsettings.setting_binary['TESTING_DIRECTORY'], 
-        batch_size=environmentsettings.setting_binary['BATCH_SIZE'], 
-        image_size=(224, 224), 
+    train_dataset = keras.preprocessing.image_dataset_from_directory(
+        environmentsettings.settings['TESTING_DIRECTORY'],
+        batch_size=environmentsettings.settings['BATCH_SIZE'],
+        image_size=(224, 224),
         color_mode='rgb',
         label_mode='binary'
     )
@@ -57,8 +60,18 @@ def create_validation_data_set(print_dataset=False):
     '''
     label_mode: - 'int': means that the labels are encoded as integers (e.g. for sparse_categorical_crossentropy loss). - 'categorical' means that the labels are encoded as a categorical vector (e.g. for categorical_crossentropy loss). - 'binary' means that the labels (there can be only 2) are encoded as float32 scalars with values 0 or 1 (e.g. for binary_crossentropy). - None (no labels).
     '''
+    # For demonstration, iterate over the batches yielded by the dataset.
+    if not print_dataset:
+        return train_dataset
 
-    return test_dataset
+    for data, labels in train_dataset:
+        print(data.shape)
+        print(data.dtype)
+        print(labels.shape)
+        print(labels.dtype)
+
+    return train_dataset
+
 
 def create_model():
     model = DenseNet121(
@@ -66,8 +79,9 @@ def create_model():
         weights=None,
         classes=1
     )
-    
+
     return model
+
 
 def main():
     print("Starting")
@@ -97,6 +111,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

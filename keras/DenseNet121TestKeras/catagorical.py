@@ -52,7 +52,7 @@ def main():
     train_dataset = create_training_data_set()
     # print(np.concatenate([y for x, y in train_dataset], axis = 0).shape)
     model = create_model()
-    model.layers[-1].activation = keras.activations.relu
+    model.layers[-1].activation = keras.activations.sigmoid
     # model = keras.utils.apply_modifications(model)
 
     model.compile(

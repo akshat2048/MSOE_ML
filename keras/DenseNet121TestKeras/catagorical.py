@@ -3,6 +3,7 @@ from tensorflow.keras.applications import DenseNet121
 import tensorflow.keras.layers as layers
 import numpy as np
 import environmentsettings
+from sklearn.metrics import classification_report
 
 def create_training_data_set(print_dataset=False):
     # Create a dataset
@@ -42,7 +43,7 @@ def create_model():
     model = DenseNet121(
         include_top=True,
         weights=None,
-        classes=15
+        classes=13
     )
     
     return model
@@ -68,10 +69,18 @@ def main():
         validation_data = create_validation_data_set()
     )
 
+    model.save('C:/Users/samee/Documents/Imagine Cup Saved Models/First Categorical Save')
+
     print(history.history)
     # preprocess the data
     # https://keras.io/preprocessing/image/
 
+def test():
+    model = keras.models.load_model('C:/Users/samee/Documents/Imagine Cup Saved Models/First Categorical Save')
+    history = model.evaluate(
+        create_validation_data_set()
+    )
+    print(classification_report)
 
 if __name__ == "__main__":
-    main()
+    test()

@@ -7,7 +7,9 @@ def resize_images(DIRECTORY):
     for image in list_of_images:
         if "._" in image:
             list_of_images.remove(image)
-    print(list_of_images)
+        if "png" not in image:
+            list_of_images.remove(image)
+    
     for file in list_of_images:
         img = Image.open(os.path.join(DIRECTORY, file))
         img.thumbnail((320,320))

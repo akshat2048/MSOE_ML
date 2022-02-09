@@ -1,16 +1,14 @@
+from pathlib import Path
 import imghdr
-import os
 
-mounted_path = '/media/pi/'
+data_dir = '/Volumes/90OL67YGN/images'
+image_extensions = [".png", ".jpg"]  # add there all your images file extensions
 
-for directory in os.listdir(mounted_path):
-    data_dir = os.path.join(mounted_path, directory)
-    
-    for file in os.listdir(data_dir):
-        if imghdr.what(os.path.join(data_dir, file)) != 'png':
-            print(os.path.join(data_dir, file))
-            os.remove(os.path.join(data_dir, file))
-
-    for file in os.listdir(data_dir):
-        if imghdr.what(os.path.join(data_dir, file)) != 'png':
-            print(os.path.join(data_dir, file))
+img_type_accepted_by_tf = ["bmp", "gif", "jpeg", "png"]
+for filepath in Path(data_dir).rglob("*"):
+    if filepath.suffix.lower() in image_extensions:
+        img_type = imghdr.what(filepath)
+        if img_type is None:
+            print(f"{filepath} is not an image")
+        elif img_type not in img_type_accepted_by_tf:
+            print(f"{filepath} is a {img_type}, not accepted by TensorFlow")

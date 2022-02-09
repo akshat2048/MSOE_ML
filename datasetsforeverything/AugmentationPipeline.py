@@ -6,15 +6,20 @@ import shutil
 def augmentation_pipeline(DIRECTORY, NUMBER_TO_SAMPLE):
     p = Augmentor.Pipeline(DIRECTORY)
     p.flip_left_right(probability=0.5)
-    p.rotate(
-        probability=0.5,
-        max_left_rotation=15,
-        max_right_rotation=15
+    p.random_color(
+        min_factor=0.9, 
+        max_factor=0.99,
+        probability=0.5
     )
-    p.zoom(
-        probability=0.5,
-        min_factor=1.05,
-        max_factor=1.25
+    p.random_contrast(
+        min_factor=0.9, 
+        max_factor=0.99,
+        probability=0.5
+    )
+    p.random_brightness(
+        min_factor=0.9, 
+        max_factor=0.99,
+        probability=0.5
     )
 
     p.sample(NUMBER_TO_SAMPLE)

@@ -49,7 +49,8 @@ def create_model():
     model = DenseNet121(
         include_top=True,
         weights=None,
-        classes=13
+        classes=15,
+        
     )
     
     return model
@@ -75,7 +76,7 @@ def main():
         validation_data = create_validation_data_set()
     )
 
-    model.save('C:/Users/samee/Documents/Imagine Cup Saved Models/First Categorical Save')
+    model.save('./')
 
     print(history.history)
     # preprocess the data
@@ -86,7 +87,7 @@ def test():
     history = model.evaluate(
         create_validation_data_set()
     )
-    print(classification_report)
+    print(history.history)
 
 if __name__ == "__main__":
     main()

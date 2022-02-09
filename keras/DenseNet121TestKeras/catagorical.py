@@ -12,7 +12,10 @@ def create_training_data_set(print_dataset=False):
         batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
         image_size=(224, 224), 
         color_mode='rgb',
-        label_mode='categorical'
+        label_mode='categorical',
+        validation_split=0.2,
+        subset='training',
+        seed=999
     )
 
     '''
@@ -34,7 +37,10 @@ def create_validation_data_set(print_dataset=False):
         batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
         image_size=(224, 224), 
         color_mode='rgb',
-        label_mode='categorical'
+        label_mode='categorical',
+        validation_split=0.2,
+        subset='validation',
+        seed=999
     )
 
     return test_dataset
@@ -83,4 +89,4 @@ def test():
     print(classification_report)
 
 if __name__ == "__main__":
-    test()
+    main()

@@ -1,6 +1,9 @@
 from tensorflow import keras
+from tensorflow.keras import Model
+from tensorflow.keras import Input
 from tensorflow.keras.applications import DenseNet121
-import tensorflow.keras.layers as layers
+from tensorflow.keras.layers import Dense, Reshape, GlobalAveragePooling2D
+from tensorflow.keras import Sequential
 import numpy as np
 import environmentsettings
 from sklearn.metrics import classification_report
@@ -33,7 +36,7 @@ def create_training_data_set(print_dataset=False):
 def create_validation_data_set(print_dataset=False):
     # Create a dataset
     test_dataset = keras.preprocessing.image_dataset_from_directory(
-        environmentsettings.setting_categorical['TESTING_DIRECTORY'], 
+        environmentsettings.setting_categorical['TRAINING_DIRECTORY'], 
         batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
         image_size=(224, 224), 
         color_mode='rgb',
@@ -46,13 +49,31 @@ def create_validation_data_set(print_dataset=False):
     return test_dataset
 
 def create_model():
-    model = DenseNet121(
-        include_top=True,
-        weights=None,
-        classes=15,
-        
+
+    base_model = DenseNet121(
+        include_top=False,
+        weights='imagenet',
+        input_shape=(224, 224, 3)
     )
-    
+
+    # Next, we will freeze the base model so that all the learning from the ImageNet 
+    # dataset does not get destroyed in the initial training.
+    base_model.trainable = False
+
+    # Create inputs with correct shape
+    inputs = keras.Input(shape=(224, 224, 3))
+    x = base_model(inputs, training=False)
+
+    # Add pooling layer or flatten layer
+    x =  keras.layers.GlobalAveragePooling2D()(x)
+
+    # Add final dense layer with 6 classes for the 6 types of fruit
+    outputs = keras.layers.Dense(environmentsettings.setting_categorical['CLASSES'], activation = 'softmax')(x)
+
+    # Combine inputs and outputs to create model
+    model = keras.Model(inputs, outputs)
+
+    # uncomment the following code if you want to see the model
     return model
 
 def main():
@@ -60,7 +81,6 @@ def main():
     train_dataset = create_training_data_set()
     # print(np.concatenate([y for x, y in train_dataset], axis = 0).shape)
     model = create_model()
-    model.layers[-1].activation = keras.activations.sigmoid
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
@@ -76,18 +96,18 @@ def main():
         validation_data = create_validation_data_set()
     )
 
-    model.save('./')
+    model.save(environmentsettings.settings['SAVE_DIRECTORY'] + '/NIH Categorical Save')
 
     print(history.history)
     # preprocess the data
     # https://keras.io/preprocessing/image/
 
 def test():
-    model = keras.models.load_model('C:/Users/samee/Documents/Imagine Cup Saved Models/First Categorical Save')
+    model = keras.models.load_model(environmentsettings.settings['SAVE_DIRECTORY'] + '/NIH Categorical Save')
     history = model.evaluate(
         create_validation_data_set()
     )
-    print(history.history)
+    print(classification_report)
 
 if __name__ == "__main__":
     main()

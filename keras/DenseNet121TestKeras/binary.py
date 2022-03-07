@@ -2,7 +2,7 @@ from tensorflow import keras
 from tensorflow.keras.applications import DenseNet121
 import environmentsettings
 
-SAVE_NAME = 'LateralTrainSave'
+SAVE_NAME = 'AP32Adam_Binary'
 OPTIMIZER = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
 AUGMENTING_DATA = False
 CALLBACKS = []
@@ -16,7 +16,7 @@ def create_training_data_set():
             batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
             image_size=(224, 224), 
             color_mode='rgb',
-            label_mode='categorical',
+            label_mode='binary',
             validation_split=0.2,
             subset='training',
             seed=999
@@ -42,7 +42,7 @@ def create_validation_data_set():
             batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
             image_size=(224, 224), 
             color_mode='rgb',
-            label_mode='categorical',
+            label_mode='binary',
             validation_split=0.2,
             subset='validation',
             seed=999
@@ -79,7 +79,7 @@ def create_model():
     x =  keras.layers.GlobalAveragePooling2D()(x)
 
     # Add final dense layer with 6 classes for the 6 types of fruit
-    outputs = keras.layers.Dense(1, activation = 'softmax')(x)
+    outputs = keras.layers.Dense(1, activation = 'sigmoid')(x)
 
     # Combine inputs and outputs to create model
     model = keras.Model(inputs, outputs)

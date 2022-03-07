@@ -84,7 +84,7 @@ def main():
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
-        optimizer= keras.optimizers.SGD(learning_rate=environmentsettings.setting_categorical['LEARNING_RATE']),
+        optimizer= keras.optimizers.Adam(learning_rate=environmentsettings.setting_categorical['LEARNING_RATE']),
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
@@ -93,17 +93,18 @@ def main():
     history = model.fit(
         train_dataset,
         epochs=environmentsettings.setting_categorical['EPOCHS'],
-        validation_data = create_validation_data_set()
+        validation_data = create_validation_data_set(),
+        batch_size = environmentsettings.setting_categorical['BATCH_SIZE']
     )
 
-    model.save(environmentsettings.settings['SAVE_DIRECTORY'] + '/NIH Categorical Save')
+    model.save(environmentsettings.setting_categorical['SAVE_DIRECTORY'] + '/NIH Categorical Save')
 
     print(history.history)
     # preprocess the data
     # https://keras.io/preprocessing/image/
 
 def test():
-    model = keras.models.load_model(environmentsettings.settings['SAVE_DIRECTORY'] + '/NIH Categorical Save')
+    model = keras.models.load_model(environmentsettings.setting_categorical['SAVE_DIRECTORY'] + '/NIH Categorical Save')
     history = model.evaluate(
         create_validation_data_set()
     )

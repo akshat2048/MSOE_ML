@@ -88,7 +88,7 @@ def main():
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
-        optimizer= keras.optimizers.SGD(learning_rate=environmentsettings.setting_binary['LEARNING_RATE']),
+        optimizer= keras.optimizers.Adam(learning_rate=environmentsettings.setting_binary['LEARNING_RATE']),
         loss='binary_crossentropy',
         metrics=['accuracy']
     )
@@ -101,7 +101,8 @@ def main():
         validation_data=valid_dataset,
     )
 
-    model.save('C:/Users/samee/Documents/Imagine Cup Saved Models')
+    model.save(environmentsettings.setting_categorical['SAVE_DIRECTORY'] + '/NIH Categorical Save')
+
 
     print(history.history)
     # preprocess the data

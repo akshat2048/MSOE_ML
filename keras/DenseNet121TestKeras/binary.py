@@ -102,6 +102,16 @@ def main():
     # optimizer = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
     # TRY ADAM WHEN YOU GET HOME, USING SGD RIGHT NOW
 
+    model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
+        filepath=environmentsettings.setting_categorical['SAVE_DIRECTORY'] + f'/{SAVE_NAME}_WEIGHTS',
+        save_weights_only=True,
+        monitor='val_accuracy',
+        mode='max',
+        save_best_only=True
+    )
+
+    CALLBACKS.append(model_checkpoint_callback)
+
     history = model.fit(
         train_dataset,
         epochs=environmentsettings.setting_categorical['EPOCHS'],

@@ -96,7 +96,7 @@ def main():
 
     model.compile(
         optimizer= OPTIMIZER,
-        loss='categorical_crossentropy',
+        loss='binary_crossentropy',
         metrics=['accuracy']
     )
     # optimizer = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])

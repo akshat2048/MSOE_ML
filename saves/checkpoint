@@ -1,0 +1,2 @@
+model_checkpoint_path: "AP32Adam_Binary_WEIGHTS"
+all_model_checkpoint_paths: "AP32Adam_Binary_WEIGHTS"

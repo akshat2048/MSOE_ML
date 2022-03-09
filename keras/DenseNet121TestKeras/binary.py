@@ -1,9 +1,8 @@
 from calendar import EPOCH
-from fsspec import Callback
 from tensorflow import keras
 from tensorflow.keras.applications import DenseNet121
 import environmentsettings
-from keras.callbacks import LearningRateScheduler
+from tensorflow.keras.callbacks import LearningRateScheduler
 import math
 
 def step_decay(epoch):
@@ -109,26 +108,19 @@ def main():
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
-<<<<<<< HEAD
         optimizer= OPITMIZER_SGD_Step,
-=======
-        optimizer= OPTIMIZER,
->>>>>>> 5c071868e008d8a063cf3b51000c981d940f19e5
         loss='binary_crossentropy',
         metrics=['accuracy']
     )
     # optimizer = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
     # TRY ADAM WHEN YOU GET HOME, USING SGD RIGHT NOW
 
-    model_checkpoint_callback = keras.callbacks.ModelCheckpoint(
-        filepath=environmentsettings.setting_categorical['SAVE_DIRECTORY'] + f'/{SAVE_NAME}_WEIGHTS',
-        save_weights_only=True,
-        monitor='val_accuracy',
-        mode='max',
-        save_best_only=False
-    ) 
+    checkpoint = keras.callbacks.ModelCheckpoint(f"{environmentsettings.setting_categorical['SAVE_DIRECTORY']}/{SAVE_NAME}" + '/{epoch:02d}-{val_loss:.2f}.h5',
+        monitor = 'val_loss',
+        mode = 'min'
+    )
 
-    CALLBACKS.append(model_checkpoint_callback)
+    CALLBACKS.append(checkpoint)
 
     history = model.fit(
         train_dataset,

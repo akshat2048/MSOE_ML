@@ -6,7 +6,9 @@ from tensorflow.keras.layers import Dense, Reshape, GlobalAveragePooling2D
 from tensorflow.keras import Sequential
 import numpy as np
 import environmentsettings
-from sklearn.metrics import classification_report
+from keras.callbacks import Callback
+
+
 
 def create_training_data_set(print_dataset=False):
     # Create a dataset
@@ -16,9 +18,6 @@ def create_training_data_set(print_dataset=False):
         image_size=(224, 224), 
         color_mode='rgb',
         label_mode='categorical',
-        validation_split=0.2,
-        subset='training',
-        seed=999
     )
 
     '''
@@ -41,9 +40,6 @@ def create_validation_data_set(print_dataset=False):
         image_size=(224, 224), 
         color_mode='rgb',
         label_mode='categorical',
-        validation_split=0.2,
-        subset='validation',
-        seed=999
     )
 
     return test_dataset
@@ -79,35 +75,37 @@ def create_model():
 def main():
     print("Starting")
     train_dataset = create_training_data_set()
-    # print(np.concatenate([y for x, y in train_dataset], axis = 0).shape)
+    # This is for a new model
     model = create_model()
-    # model = keras.utils.apply_modifications(model)
+    model.layers[-1].activation = keras.activations.softmax
+    # This is for a saved model
+    # model = keras.models.load_model('C:/Users/samee/Documents/Imagine Cup Saved Models/NIH Categorical Save')
+    # earlyStopping = keras.callbacks.EarlyStopping(monitor = 'val_loss', mode = 'min')
+    #Put your own file path in but keep the {epoch:02d} and onwards. Its to save after every epoch
+    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/NIH Categorical Callbacks/{epoch:02d}-{val_loss:.2f}.h5',
+        monitor = 'val_loss',
+        mode = 'min'
+    )
 
     model.compile(
-        optimizer= keras.optimizers.SGD(learning_rate=environmentsettings.setting_categorical['LEARNING_RATE']),
+        optimizer= keras.optimizers.SGD(learning_rate=environmentsettings.setting_categorical['LEARNING_RATE'], momentum = 0.9),
         loss='categorical_crossentropy',
         metrics=['accuracy']
     )
-    # optimizer = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
-    # TRY ADAM WHEN YOU GET HOME, USING SGD RIGHT NOW
+    # keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
     history = model.fit(
         train_dataset,
         epochs=environmentsettings.setting_categorical['EPOCHS'],
-        validation_data = create_validation_data_set()
+        validation_data = create_validation_data_set(),
+        callbacks = [checkpoint]
     )
 
-    model.save(environmentsettings.settings['SAVE_DIRECTORY'] + '/NIH Categorical Save')
+    model.save('C:/Users/samee/Documents/Imagine Cup Saved Models/NIH Categorical Save Correct')
 
     print(history.history)
     # preprocess the data
     # https://keras.io/preprocessing/image/
 
-def test():
-    model = keras.models.load_model(environmentsettings.settings['SAVE_DIRECTORY'] + '/NIH Categorical Save')
-    history = model.evaluate(
-        create_validation_data_set()
-    )
-    print(classification_report)
 
 if __name__ == "__main__":
     main()

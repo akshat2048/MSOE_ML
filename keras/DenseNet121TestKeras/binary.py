@@ -1,11 +1,25 @@
+from calendar import EPOCH
+from fsspec import Callback
 from tensorflow import keras
 from tensorflow.keras.applications import DenseNet121
 import environmentsettings
+from keras.callbacks import LearningRateScheduler
+import math
 
-SAVE_NAME = 'AP32Adam_Binary'
+def step_decay(epoch):
+	initial_lrate = 0.1
+	drop = 0.5
+	epochs_drop = 10.0
+	lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
+	return lrate
+lrate = LearningRateScheduler(step_decay)
+SAVE_NAME = 'RMSPropAPChex'
+decay_rate = environmentsettings.setting_categorical['LEARNING_RATE']/environmentsettings.setting_categorical['EPOCHS']
 OPTIMIZER = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
+OPITMIZER_SGD = keras.optimizers.SGD(lr=environmentsettings.setting_categorical['LEARNING_RATE'], decay = decay_rate)
+OPITMIZER_SGD_Step = keras.optimizers.SGD(lr=environmentsettings.setting_categorical['LEARNING_RATE'], momentum = 0.9)
 AUGMENTING_DATA = False
-CALLBACKS = []
+CALLBACKS = [lrate]
 
 
 def create_training_data_set():
@@ -58,7 +72,7 @@ def create_validation_data_set():
             label_mode='binary'
         )
         return test_dataset
-        
+      
 
 def create_model():
     base_model = DenseNet121(
@@ -95,8 +109,8 @@ def main():
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
-        optimizer= OPTIMIZER,
-        loss='categorical_crossentropy',
+        optimizer= OPITMIZER_SGD_Step,
+        loss='binary_crossentropy',
         metrics=['accuracy']
     )
     # optimizer = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
@@ -107,8 +121,8 @@ def main():
         save_weights_only=True,
         monitor='val_accuracy',
         mode='max',
-        save_best_only=True
-    )
+        save_best_only=False
+    ) 
 
     CALLBACKS.append(model_checkpoint_callback)
 

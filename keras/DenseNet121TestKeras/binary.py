@@ -109,7 +109,11 @@ def main():
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
+<<<<<<< HEAD
         optimizer= OPITMIZER_SGD_Step,
+=======
+        optimizer= OPTIMIZER,
+>>>>>>> 5c071868e008d8a063cf3b51000c981d940f19e5
         loss='binary_crossentropy',
         metrics=['accuracy']
     )

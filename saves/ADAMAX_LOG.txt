@@ -1,0 +1,89 @@
+conda run -n apple_tensorflow --no-capture-output --live-stream python /Users/akshatchannashetti/Documents/VSCode_Projects/MSOE_ML/keras/DenseNet121TestKeras/binary.py
+WARNING:tensorflow:Eager mode uses the CPU. Switching to the CPU.
+Starting
+Found 21790 files belonging to 2 classes.
+Using 17432 files for training.
+Found 21790 files belonging to 2 classes.
+Using 4358 files for validation.
+Epoch 1/25
+WARNING:tensorflow:AutoGraph could not transform <function Model.make_train_function.<locals>.train_function at 0x14bda2790> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unsupported operand type(s) for -: 'NoneType' and 'int'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+2022-03-13 21:01:25.298858: I tensorflow/compiler/mlir/mlir_graph_optimization_pass.cc:116] None of the MLIR optimization passes are enabled (registered 2)
+2022-03-13 21:01:25.313814: W tensorflow/core/platform/profile_utils/cpu_utils.cc:126] Failed to get CPU frequency: 0 Hz
+1090/1090 [==============================] - ETA: 0s - loss: 0.6804 - accuracy: 0.7386WARNING:tensorflow:AutoGraph could not transform <function Model.make_test_function.<locals>.test_function at 0x2a00723a0> and will run it as-is.
+Please report this to the TensorFlow team. When filing the bug, set the verbosity to 10 (on Linux, `export AUTOGRAPH_VERBOSITY=10`) and attach the full output.
+Cause: unsupported operand type(s) for -: 'NoneType' and 'int'
+To silence this warning, decorate the function with @tf.autograph.experimental.do_not_convert
+1090/1090 [==============================] - 440s 401ms/step - loss: 0.6803 - accuracy: 0.7386 - val_loss: 2.1655 - val_accuracy: 0.7453
+Epoch 2/25
+1090/1090 [==============================] - 334s 306ms/step - loss: 0.5383 - accuracy: 0.7562 - val_loss: 1.6303 - val_accuracy: 0.7402
+Epoch 3/25
+1090/1090 [==============================] - 343s 314ms/step - loss: 0.5650 - accuracy: 0.7486 - val_loss: 1.2514 - val_accuracy: 0.6971
+Epoch 4/25
+1090/1090 [==============================] - 334s 306ms/step - loss: 0.5770 - accuracy: 0.7434 - val_loss: 2.3016 - val_accuracy: 0.7453
+Epoch 5/25
+1090/1090 [==============================] - 327s 299ms/step - loss: 0.5622 - accuracy: 0.7495 - val_loss: 1.1309 - val_accuracy: 0.6420
+Epoch 6/25
+1090/1090 [==============================] - 329s 301ms/step - loss: 0.5484 - accuracy: 0.7587 - val_loss: 1.2504 - val_accuracy: 0.6739
+Epoch 7/25
+1090/1090 [==============================] - 328s 300ms/step - loss: 0.5768 - accuracy: 0.7469 - val_loss: 1.2358 - val_accuracy: 0.6583
+Epoch 8/25
+1090/1090 [==============================] - 327s 299ms/step - loss: 0.5566 - accuracy: 0.7505 - val_loss: 2.2403 - val_accuracy: 0.7453
+Epoch 9/25
+1090/1090 [==============================] - 326s 298ms/step - loss: 0.5656 - accuracy: 0.7492 - val_loss: 2.1001 - val_accuracy: 0.7430
+Epoch 10/25
+1090/1090 [==============================] - 334s 306ms/step - loss: 0.5644 - accuracy: 0.7529 - val_loss: 1.2195 - val_accuracy: 0.6746
+Epoch 11/25
+1090/1090 [==============================] - 329s 301ms/step - loss: 0.5745 - accuracy: 0.7475 - val_loss: 1.5643 - val_accuracy: 0.7201
+Epoch 12/25
+1090/1090 [==============================] - 324s 297ms/step - loss: 0.5637 - accuracy: 0.7505 - val_loss: 1.4236 - val_accuracy: 0.7058
+Epoch 13/25
+1090/1090 [==============================] - 315s 288ms/step - loss: 0.5560 - accuracy: 0.7469 - val_loss: 1.2222 - val_accuracy: 0.5812
+Epoch 14/25
+1090/1090 [==============================] - 335s 307ms/step - loss: 0.5482 - accuracy: 0.7549 - val_loss: 2.0365 - val_accuracy: 0.7430
+Epoch 15/25
+1090/1090 [==============================] - 342s 313ms/step - loss: 0.5726 - accuracy: 0.7451 - val_loss: 2.2953 - val_accuracy: 0.7453
+Epoch 16/25
+1090/1090 [==============================] - 404s 367ms/step - loss: 0.5611 - accuracy: 0.7495 - val_loss: 1.2714 - val_accuracy: 0.5686
+Epoch 17/25
+1090/1090 [==============================] - 370s 339ms/step - loss: 0.5569 - accuracy: 0.7564 - val_loss: 1.9944 - val_accuracy: 0.7396
+Epoch 18/25
+1090/1090 [==============================] - 5229s 5s/step - loss: 0.5685 - accuracy: 0.7520 - val_loss: 1.1778 - val_accuracy: 0.6673
+Epoch 19/25
+1090/1090 [==============================] - 7388s 7s/step - loss: 0.5618 - accuracy: 0.7467 - val_loss: 4.5970 - val_accuracy: 0.2618
+Epoch 20/25
+1090/1090 [==============================] - 6240s 6s/step - loss: 0.5831 - accuracy: 0.7409 - val_loss: 2.3093 - val_accuracy: 0.3777
+Epoch 21/25
+1090/1090 [==============================] - 7347s 7s/step - loss: 0.6025 - accuracy: 0.7466 - val_loss: 1.8223 - val_accuracy: 0.7414
+Epoch 22/25
+ 620/1090 [================>.............] - ETA: 46:56 - loss: 0.5496 - accuracy: 0.75212022-03-14 07:36:15.319250: W tensorflow/core/framework/op_kernel.cc:1775] OP_REQUIRES failed at whole_file_read_ops.cc:116 : Not found: /Volumes/90OL67YGN/trainL/abnormal/patient00035_study2_view2_lateral.jpg; Device not configured
+Traceback (most recent call last):
+  File "/Users/akshatchannashetti/Documents/VSCode_Projects/MSOE_ML/keras/DenseNet121TestKeras/binary.py", line 150, in <module>
+    main()
+  File "/Users/akshatchannashetti/Documents/VSCode_Projects/MSOE_ML/keras/DenseNet121TestKeras/binary.py", line 134, in main
+    history = model.fit(
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/keras/engine/training.py", line 1100, in fit
+    tmp_logs = self.train_function(iterator)
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/def_function.py", line 828, in __call__
+    result = self._call(*args, **kwds)
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/def_function.py", line 855, in _call
+    return self._stateless_fn(*args, **kwds)  # pylint: disable=not-callable
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 2942, in __call__
+    return graph_function._call_flat(
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 1918, in _call_flat
+    return self._build_call_outputs(self._inference_function.call(
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 555, in call
+    outputs = execute.execute(
+  File "/Users/akshatchannashetti/miniforge3/envs/apple_tensorflow/lib/python3.8/site-packages/tensorflow/python/eager/execute.py", line 59, in quick_execute
+    tensors = pywrap_tfe.TFE_Py_Execute(ctx._handle, device_name, op_name,
+tensorflow.python.framework.errors_impl.NotFoundError:  /Volumes/90OL67YGN/trainL/abnormal/patient00035_study2_view2_lateral.jpg; Device not configured
+         [[{{node ReadFile}}]]
+         [[IteratorGetNext]] [Op:__inference_train_function_20845]
+
+Function call stack:
+train_function
+
+ERROR conda.cli.main_run:execute(33): Subprocess for 'conda run ['python', '/Users/akshatchannashetti/Documents/VSCode_Projects/MSOE_ML/keras/DenseNet121TestKeras/binary.py']' command failed.  (See above for error)
+(base) akshatchannashetti@akshats-m1-mbp MSOE_ML % 

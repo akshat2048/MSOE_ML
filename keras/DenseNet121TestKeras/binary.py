@@ -38,8 +38,8 @@ def create_training_data_set():
     else:
         # Create a dataset
         train_dataset = keras.preprocessing.image_dataset_from_directory(
-            environmentsettings.setting_binary['TRAINING_DIRECTORY'], 
-            batch_size=environmentsettings.setting_binary['BATCH_SIZE'], 
+            environmentsettings.setting_categorical['TRAINING_DIRECTORY'], 
+            batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
             image_size=(224, 224), 
             color_mode='rgb',
             label_mode='binary'
@@ -64,8 +64,8 @@ def create_validation_data_set():
         return test_dataset
     else:
         test_dataset = keras.preprocessing.image_dataset_from_directory(
-            environmentsettings.setting_binary['TESTING_DIRECTORY'], 
-            batch_size=environmentsettings.setting_binary['BATCH_SIZE'], 
+            environmentsettings.setting_categorical['TESTING_DIRECTORY'], 
+            batch_size=environmentsettings.setting_categorical['BATCH_SIZE'], 
             image_size=(224, 224), 
             color_mode='rgb',
             label_mode='binary'

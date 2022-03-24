@@ -4,6 +4,8 @@ from tensorflow.keras.applications import DenseNet121
 import environmentsettings
 from tensorflow.keras.callbacks import LearningRateScheduler
 import math
+from keras_adabound import AdaBound
+
 
 def step_decay(epoch):
 	initial_lrate = 0.1
@@ -12,9 +14,9 @@ def step_decay(epoch):
 	lrate = initial_lrate * math.pow(drop, math.floor((1+epoch)/epochs_drop))
 	return lrate
 lrate = LearningRateScheduler(step_decay)
-SAVE_NAME = 'RMSPropAPChex'
+SAVE_NAME = 'AdaBound32PA'
 decay_rate = environmentsettings.setting_categorical['LEARNING_RATE']/environmentsettings.setting_categorical['EPOCHS']
-OPTIMIZER = keras.optimizers.Adam(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
+OPTIMIZER = AdaBound(lr=environmentsettings.setting_categorical['LEARNING_RATE'])
 OPITMIZER_SGD = keras.optimizers.SGD(lr=environmentsettings.setting_categorical['LEARNING_RATE'], decay = decay_rate)
 OPITMIZER_SGD_Step = keras.optimizers.SGD(lr=environmentsettings.setting_categorical['LEARNING_RATE'], momentum = 0.9)
 AUGMENTING_DATA = False

@@ -12,7 +12,7 @@ tensorflow and keras
 
 ## Instructions
 
-- Run SetUpChexpertForTraining.ipynb once the chexpert dataset is downloaded
-- Run BinaryAugmentation.ipynb to help balance datasets using augmentation
+- Run datasetsforeverything/SetUpChexpertForTraining.ipynb once the chexpert dataset is downloaded
+- Run datasetsforeverything/BinaryAugmentation.ipynb to help balance datasets using augmentation
 - Run keras/DenseNet121TestKeras/main.py for the actual training code
-- Run classoutput.ipynb to create a CM and generate recall, precision, f1-score
+- Run keras/DenseNet121TestKeras/classoutput.ipynb to create a CM and generate recall, precision, f1-score

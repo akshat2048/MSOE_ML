@@ -1,11 +1,18 @@
 # *Lung Anomaly Identification via ML*
 
-## BasicANN & DenseNet121Test work, run main.py
+## Packages to install
 
-## [NIH images](https://nihcc.app.box.com/v/ChestXray-NIHCC) NOT in repo
+pip install keras_adabound
 
-## Steps to run NIH images
+pip install Augmentor
 
-1. Put NIH images in a folder and then follow instructions in nihsample.ipynb
-2. once you have a directory set up you can run the main.py files in either basicANN or denseNet121Test
-   1. Make sure you set the DATA_DIRECTORY vars properly.
+----
+
+tensorflow and keras
+
+## Instructions
+
+- Run SetUpChexpertForTraining.ipynb once the chexpert dataset is downloaded
+- Run BinaryAugmentation.ipynb to help balance datasets using augmentation
+- Run keras/DenseNet121TestKeras/main.py for the actual training code
+- Run classoutput.ipynb to create a CM and generate recall, precision, f1-score

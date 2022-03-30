@@ -2,7 +2,7 @@
 
 ## Packages to install
 
-pip install keras_adabound
+pip install keras-adabound
 
 pip install Augmentor
 

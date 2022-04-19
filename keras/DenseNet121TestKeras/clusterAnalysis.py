@@ -23,6 +23,7 @@ import pickle
 #SET THESE TWO PLS
 path = r"CHANGE TO DATASET LOCATION"
 p = r"CHANGE TO A LOCATION TO SAVE FEATURE VECTORS"
+
 # change the working directory to the path where the images are located
 os.chdir(path)
 

@@ -4,6 +4,8 @@ from tensorflow.keras.applications import DenseNet121
 import environmentsettings
 from tensorflow.keras.callbacks import LearningRateScheduler
 import math
+from keras_adabound import AdaBound
+
 
 def step_decay(epoch):
 	initial_lrate = 0.1
@@ -108,7 +110,7 @@ def main():
     # model = keras.utils.apply_modifications(model)
 
     model.compile(
-        optimizer= OPITMIZER_SGD_Step,
+        optimizer = AdaBound(name = "AdaBound",lr=1e-03,final_lr=0.1,gamma=1e-03),
         loss='binary_crossentropy',
         metrics=['accuracy']
     )

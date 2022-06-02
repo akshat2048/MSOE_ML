@@ -93,6 +93,9 @@ def create_model():
     # Add pooling layer or flatten layer
     x =  keras.layers.GlobalAveragePooling2D()(x)
 
+    # Add a batch normalization layer
+    x = keras.layers.BatchNormalization()(x)
+
     # Add final dense layer with 6 classes for the 6 types of fruit
     outputs = keras.layers.Dense(1, activation = 'sigmoid')(x)
 

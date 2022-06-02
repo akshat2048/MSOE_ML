@@ -104,7 +104,7 @@ def main():
     #     metrics=['accuracy']
     # )
 
-    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/Lung LesionAndOpacityPA/{epoch:02d}-{val_loss:.2f}.h5',
+    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/PneumothoraxPA/{epoch:02d}-{val_loss:.2f}.h5',
         monitor = 'val_loss',
         mode = 'min'
     )
@@ -124,7 +124,7 @@ def main():
     print(history.history)
     # preprocess the data
     # https://keras.io/preprocessing/image/
-    np.save('C:/Users/samee/Documents/Imagine Cup Saved Models/Graph-Data/Lung LesionAndOpacity/Lung LesionAndOpacity.npy', history.history)
+    np.save('C:/Users/samee/Documents/Imagine Cup Saved Models/Graph-Data/Pneumothorax/Pneumothorax.npy', history.history)
     # history=np.load('my_history.npy',allow_pickle='TRUE').item()  
 
 

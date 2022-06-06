@@ -5,6 +5,7 @@ from tensorflow.keras import Model
 from tensorflow.keras import Input
 from tensorflow.keras.applications import DenseNet121
 from tensorflow.keras.applications import MobileNetV3Small
+from tensorflow.keras.applications import VGG16
 # from tensorflow.keras.applications import EfficientNetB3
 from tensorflow.keras.layers import Dense, Reshape, GlobalAveragePooling2D
 from tensorflow.keras import Sequential
@@ -59,6 +60,9 @@ def create_model():
     # Add pooling layer or flatten layer
     x =  keras.layers.GlobalAveragePooling2D()(x) 
 
+    # Add a batch normalization layer
+    x = keras.layers.BatchNormalization()(x)
+
     # Add final dense layer with 6 classes for the 6 types of fruit
     outputs = keras.layers.Dense(1, activation = 'sigmoid')(x)
 
@@ -104,7 +108,7 @@ def main():
     #     metrics=['accuracy']
     # )
 
-    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/PneumothoraxPA/{epoch:02d}-{val_loss:.2f}.h5',
+    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/PneumoniaUnder/{epoch:02d}-{val_loss:.2f}.h5',
         monitor = 'val_loss',
         mode = 'min'
     )
@@ -124,8 +128,7 @@ def main():
     print(history.history)
     # preprocess the data
     # https://keras.io/preprocessing/image/
-    np.save('C:/Users/samee/Documents/Imagine Cup Saved Models/Graph-Data/Pneumothorax/Pneumothorax.npy', history.history)
-    # history=np.load('my_history.npy',allow_pickle='TRUE').item()  
+    # np.save('C:/Users/samee/Documents/Imagine Cup Saved Models/Graph-Data/PAsat/Pneumonia/Pneumonia.npy', history.history)
 
 
 # Fine Tuning

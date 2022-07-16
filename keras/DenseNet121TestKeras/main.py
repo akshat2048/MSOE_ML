@@ -79,9 +79,9 @@ def main():
     # For a new model
     model = create_model()
 
-    # model.trainable = True
+    # model.load_weights('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/PneumoniaUnder/12-0.58.h5')
 
-    # model.load_weights('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/AP with Adabound mobile 2.0/05-0.42.h5')
+    # model.trainable = True
     
     # model.compile(
     #     optimizer= AdaBound(name = 'AdaBound', learning_rate = 0.0001),
@@ -108,8 +108,8 @@ def main():
     #     metrics=['accuracy']
     # )
 
-    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Binary/PneumoniaUnder/{epoch:02d}-{val_loss:.2f}.h5',
-        monitor = 'val_loss',
+    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Cropped/Mass_and_Nodule/{epoch:02d}-{val_accuracy:.4f}.h5',
+        monitor = 'val_accuracy',
         mode = 'min'
     )
 

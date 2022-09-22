@@ -13,6 +13,7 @@ from tensorflow.keras.applications import DenseNet121
 import matplotlib.pyplot as plt
 import itertools
 from sklearn import metrics
+import shutil
 
 # Set up the dataframe
 # I just picked two random diseases and used them as normal and abnormal
@@ -142,12 +143,27 @@ def find_cm(y_pred, test_dataset): # test_dataset = validation_data
 
     # concatenate the labels and filenames
     labels_to_send_to_the_doctor = np.concatenate(labels, prediction, fileNames, axis=1)
-    print(labels_to_send_to_the_doctor) # Check and make sure these labels are printing correctly
-    FILE_NAME_TO_SAVE_THE_LABELS_TO_SEND_TO_DOCTOR = ""
-    np.save(FILE_NAME_TO_SAVE_THE_LABELS_TO_SEND_TO_DOCTOR, labels_to_send_to_the_doctor)
-    # We will probably scan this array in a different function and determine which images to send to the doctor
+    which_images_to_send_to_doctor(labels_to_send_to_the_doctor)
 
     return cm
+
+def which_images_to_send_to_doctor(labels_and_filenames):
+    lst_of_false_positives = []
+    lst_of_false_negatives = []
+    for column in labels_and_filenames.T:
+        if column[0] == 0 and column[1] == 1:
+            lst_of_false_positives += (column[0], column[1], column[2]) # You may need to change this up so it works properly
+        elif column[0] == 1 and column[1] == 0:
+            lst_of_false_negatives += (column[0], column[1], column[2]) # You may need to change this up so it works properly
+    
+    FOLDER_NAME_FOR_FALSE_POSITIVES = 'C:\\Users\\samee\\Downloads\\MIMIC\\False Positives' # Change this obviosuly
+    FOLDER_NAME_FOR_FALSE_NEGATIVES = 'C:\\Users\\samee\\Downloads\\MIMIC\\False Negatives' # Change this obviosuly
+    FOLDER_WHERE_THESE_FILES_ARE_LOCATED = 'C:\\Users\\samee\\Downloads\\MIMIC\\Train' # Change this obviosuly, you might wanna make this the source of your abnormals folder or soemthing you will need to see
+
+    for file in lst_of_false_positives:
+        shutil.copy(os.join(FOLDER_WHERE_THESE_FILES_ARE_LOCATED, file[2]), FOLDER_NAME_FOR_FALSE_POSITIVES)
+    for file in lst_of_false_negatives:
+        shutil.copy(os.join(FOLDER_WHERE_THESE_FILES_ARE_LOCATED, file[2]), FOLDER_NAME_FOR_FALSE_NEGATIVES)
 
 for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
     

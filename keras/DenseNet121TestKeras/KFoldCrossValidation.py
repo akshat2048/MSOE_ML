@@ -131,13 +131,22 @@ def plot_and_save_confusion_matrix(cm, classes,
     plt.savefig(save_path)
 
 
-def find_cm(y_pred, test_dataset):
+def find_cm(y_pred, test_dataset): # test_dataset = validation_data
     labels = np.array([])
+    fileNames = test_dataset['filename']
     for x in test_dataset['label2']:
         labels = np.append(labels, [x], axis = 0)
     prediction = np.round(y_pred)
 
     cm = metrics.confusion_matrix(labels, prediction)
+
+    # concatenate the labels and filenames
+    labels_to_send_to_the_doctor = np.concatenate(labels, prediction, fileNames, axis=1)
+    print(labels_to_send_to_the_doctor) # Check and make sure these labels are printing correctly
+    FILE_NAME_TO_SAVE_THE_LABELS_TO_SEND_TO_DOCTOR = ""
+    np.save(FILE_NAME_TO_SAVE_THE_LABELS_TO_SEND_TO_DOCTOR, labels_to_send_to_the_doctor)
+    # We will probably scan this array in a different function and determine which images to send to the doctor
+
     return cm
 
 for train_index, val_index in kf.split(np.zeros(len(Y)),Y):

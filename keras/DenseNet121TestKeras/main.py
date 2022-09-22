@@ -108,7 +108,7 @@ def main():
     #     metrics=['accuracy']
     # )
 
-    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/Cropped/Mass_and_Nodule/{epoch:02d}-{val_accuracy:.4f}.h5',
+    checkpoint = keras.callbacks.ModelCheckpoint('C:/Users/samee/Documents/Imagine Cup Saved Models/MIMIC/{epoch:02d}-{val_accuracy:.4f}.h5',
         monitor = 'val_accuracy',
         mode = 'min'
     )

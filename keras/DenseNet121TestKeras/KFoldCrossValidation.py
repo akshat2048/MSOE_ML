@@ -17,12 +17,12 @@ from sklearn import metrics
 # Set up the dataframe
 # I just picked two random diseases and used them as normal and abnormal
 
-NAME_OF_TRAIN_FOLDER_CONTAINING_NORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\Fracture+Normal\\Normal'
-NAME_OF_TRAIN_FOLDER_CONTAINING_ABNORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\Fracture+Normal\\Fracture'
+NAME_OF_TRAIN_FOLDER_CONTAINING_NORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\MIMIC\\Train\\No_Finding'
+NAME_OF_TRAIN_FOLDER_CONTAINING_ABNORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\MIMIC\\Train\\Fracture'
 
 lst_of_files_and_classes = []
 
-for root, dirs, files in os.walk('C:\\Users\\samee\\Downloads\\Fracture+Normal'):
+for root, dirs, files in os.walk('C:\\Users\\samee\\Downloads\\MIMIC\\Train'):
     for file in files:
         if (root == NAME_OF_TRAIN_FOLDER_CONTAINING_NORMAL_CLASSES):
             lst_of_files_and_classes.append((os.path.join(root, file), "Normal", 1.0))
@@ -160,13 +160,13 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
         metrics=['accuracy']
 
     )
-    direc = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold Cross Validation/{fold_var}'
+    direc = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold MIMIC/{fold_var}'
 
     if not os.path.exists(direc):
         os.makedirs(direc)
 	
 	# CREATE CALLBACKS
-    checkpoint = keras.callbacks.ModelCheckpoint(f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold Cross Validation/{fold_var}' + '/{epoch:02d}-{val_accuracy:.4f}.h5',
+    checkpoint = keras.callbacks.ModelCheckpoint(f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold MIMIC/{fold_var}' + '/{epoch:02d}-{val_accuracy:.4f}.h5',
 
         monitor = 'val_loss',
 
@@ -199,7 +199,7 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
     # results = dict(zip(model.metrics_names,results))
 
     cm = find_cm(results, validation_data)
-    plot_and_save_confusion_matrix(cm, classes = ['Fracture', 'Normal'], save_path = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold Cross Validation/{fold_var}/confusion_matrix {fold_var}.png')
+    plot_and_save_confusion_matrix(cm, classes = ['Fracture', 'Normal'], save_path = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold MIMIC/{fold_var}/confusion_matrix {fold_var}.png')
     print(cm)
 	
     # VALIDATION_ACCURACY.append(results['accuracy'])

@@ -1,5 +1,7 @@
 
+from fileinput import filename
 from platform import mac_ver
+from re import X
 import numpy as np
 import pandas as pd
 import os
@@ -18,12 +20,12 @@ import shutil
 # Set up the dataframe
 # I just picked two random diseases and used them as normal and abnormal
 
-NAME_OF_TRAIN_FOLDER_CONTAINING_NORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\MIMIC\\Train\\No_Finding'
-NAME_OF_TRAIN_FOLDER_CONTAINING_ABNORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\MIMIC\\Train\\Fracture'
+NAME_OF_TRAIN_FOLDER_CONTAINING_NORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\Fracture_Combined_Cropped\\No_Finding'
+NAME_OF_TRAIN_FOLDER_CONTAINING_ABNORMAL_CLASSES = 'C:\\Users\\samee\\Downloads\\Fracture_Combined_Cropped\\Fracture'
 
 lst_of_files_and_classes = []
 
-for root, dirs, files in os.walk('C:\\Users\\samee\\Downloads\\MIMIC\\Train'):
+for root, dirs, files in os.walk('C:\\Users\\samee\\Downloads\\Fracture_Combined_Cropped'):
     for file in files:
         if (root == NAME_OF_TRAIN_FOLDER_CONTAINING_NORMAL_CLASSES):
             lst_of_files_and_classes.append((os.path.join(root, file), "Normal", 1.0))
@@ -132,7 +134,7 @@ def plot_and_save_confusion_matrix(cm, classes,
     plt.savefig(save_path)
 
 
-def find_cm(y_pred, test_dataset): # test_dataset = validation_data
+def find_cm(y_pred, test_dataset, direc): # test_dataset = validation_data
     labels = np.array([])
     fileNames = test_dataset['filename']
     for x in test_dataset['label2']:
@@ -142,28 +144,42 @@ def find_cm(y_pred, test_dataset): # test_dataset = validation_data
     cm = metrics.confusion_matrix(labels, prediction)
 
     # concatenate the labels and filenames
-    labels_to_send_to_the_doctor = np.concatenate(labels, prediction, fileNames, axis=1)
-    which_images_to_send_to_doctor(labels_to_send_to_the_doctor)
+    # np.reshape(labels, (1, labels.size))
+    
+    # newLabels=labels[:,np.newaxis]
+    # newFileNames=fileNames.values[:,np.newaxis]
+    # np.resize(labels, (len(labels), 1))
+    prediction = prediction.flatten().tolist()
+    labels = labels.tolist()
+    fileNames = fileNames.values.tolist()
+    # labels_to_send_to_the_doctor = np.concatenate((labels, prediction, fileNames))
+    which_images_to_send_to_doctor(labels,prediction,fileNames, direc)
 
     return cm
 
-def which_images_to_send_to_doctor(labels_and_filenames):
+def which_images_to_send_to_doctor(labels, prediction, fileNames, direc):
     lst_of_false_positives = []
     lst_of_false_negatives = []
-    for column in labels_and_filenames.T:
-        if column[0] == 0 and column[1] == 1:
-            lst_of_false_positives += (column[0], column[1], column[2]) # You may need to change this up so it works properly
-        elif column[0] == 1 and column[1] == 0:
-            lst_of_false_negatives += (column[0], column[1], column[2]) # You may need to change this up so it works properly
+    for x in range(len(labels)):
+        if labels[x] == 0 and prediction[x] == 1:
+            lst_of_false_positives.append(fileNames[x])
+        elif labels[x] == 1 and prediction[x] == 0:
+            lst_of_false_negatives.append(fileNames[x])
+
+            
+    FOLDER_NAME_FOR_FALSE_POSITIVES = direc + '\\False Positives' # Change this obviosuly
+    FOLDER_NAME_FOR_FALSE_NEGATIVES = direc + '\\False Negatives' # Change this obviosuly
+
     
-    FOLDER_NAME_FOR_FALSE_POSITIVES = 'C:\\Users\\samee\\Downloads\\MIMIC\\False Positives' # Change this obviosuly
-    FOLDER_NAME_FOR_FALSE_NEGATIVES = 'C:\\Users\\samee\\Downloads\\MIMIC\\False Negatives' # Change this obviosuly
-    FOLDER_WHERE_THESE_FILES_ARE_LOCATED = 'C:\\Users\\samee\\Downloads\\MIMIC\\Train' # Change this obviosuly, you might wanna make this the source of your abnormals folder or soemthing you will need to see
+    if not os.path.exists(FOLDER_NAME_FOR_FALSE_NEGATIVES):
+        os.makedirs(FOLDER_NAME_FOR_FALSE_NEGATIVES)
+    if not os.path.exists(FOLDER_NAME_FOR_FALSE_POSITIVES):
+        os.makedirs(FOLDER_NAME_FOR_FALSE_POSITIVES)
 
     for file in lst_of_false_positives:
-        shutil.copy(os.join(FOLDER_WHERE_THESE_FILES_ARE_LOCATED, file[2]), FOLDER_NAME_FOR_FALSE_POSITIVES)
+        shutil.copy(file, FOLDER_NAME_FOR_FALSE_POSITIVES)
     for file in lst_of_false_negatives:
-        shutil.copy(os.join(FOLDER_WHERE_THESE_FILES_ARE_LOCATED, file[2]), FOLDER_NAME_FOR_FALSE_NEGATIVES)
+        shutil.copy(file, FOLDER_NAME_FOR_FALSE_NEGATIVES)
 
 for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
     
@@ -185,13 +201,13 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
         metrics=['accuracy']
 
     )
-    direc = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold MIMIC/{fold_var}'
+    direc = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold with wrong images/{fold_var}'
 
     if not os.path.exists(direc):
         os.makedirs(direc)
 	
 	# CREATE CALLBACKS
-    checkpoint = keras.callbacks.ModelCheckpoint(f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold MIMIC/{fold_var}' + '/{epoch:02d}-{val_accuracy:.4f}.h5',
+    checkpoint = keras.callbacks.ModelCheckpoint(f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold with wrong images/{fold_var}' + '/{epoch:02d}-{val_accuracy:.4f}.h5',
 
         monitor = 'val_loss',
 
@@ -204,7 +220,7 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
 	# This saves the best model
 	# FIT THE MODEL
     history = model.fit(train_data_generator,
-			    epochs= 10,
+			    epochs= 9,
 			    callbacks=callbacks_list,
 			    validation_data=valid_data_generator)
 	#PLOT HISTORY
@@ -223,8 +239,8 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
     results = model.predict(valid_data_generator)
     # results = dict(zip(model.metrics_names,results))
 
-    cm = find_cm(results, validation_data)
-    plot_and_save_confusion_matrix(cm, classes = ['Fracture', 'Normal'], save_path = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold MIMIC/{fold_var}/confusion_matrix {fold_var}.png')
+    cm = find_cm(results, validation_data, direc)
+    plot_and_save_confusion_matrix(cm, classes = ['Fracture', 'Normal'], save_path = f'C:/Users/samee/Documents/Imagine Cup Saved Models/K-Fold with wrong images/{fold_var}/confusion_matrix {fold_var}.png')
     print(cm)
 	
     # VALIDATION_ACCURACY.append(results['accuracy'])

@@ -41,7 +41,8 @@ Y = train_data[['label']]
 
 kf = KFold(n_splits = 5)
 
-idg = ImageDataGenerator()
+train_idg = ImageDataGenerator(horizontal_flip=True, rotation_range=15, zoom_range=[1.05, 1.15])
+valid_idg = ImageDataGenerator()
 
 fold_var = 1
 VALIDATION_ACCURACY = []
@@ -185,8 +186,8 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
     
     training_data = train_data.iloc[train_index]
     validation_data = train_data.iloc[val_index]
-    train_data_generator = idg.flow_from_dataframe(training_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = True, horizontal_flip=True, rotation_range=15, zoom_range=[1.05, 1.15])
-    valid_data_generator  = idg.flow_from_dataframe(validation_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = False)
+    train_data_generator = train_idg.flow_from_dataframe(training_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = True)
+    valid_data_generator  = valid_idg.flow_from_dataframe(validation_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = False)
 
 
 	# CREATE NEW MODEL

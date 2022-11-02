@@ -185,7 +185,7 @@ for train_index, val_index in kf.split(np.zeros(len(Y)),Y):
     
     training_data = train_data.iloc[train_index]
     validation_data = train_data.iloc[val_index]
-    train_data_generator = idg.flow_from_dataframe(training_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = True)
+    train_data_generator = idg.flow_from_dataframe(training_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = True, horizontal_flip=True, rotation_range=15, zoom_range=[1.05, 1.15])
     valid_data_generator  = idg.flow_from_dataframe(validation_data, x_col = "filename", y_col = "label", class_mode = "binary", shuffle = False)
 
 

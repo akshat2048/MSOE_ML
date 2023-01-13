@@ -1,0 +1,5 @@
+,dicom_id,subject_id,study_id,PerformedProcedureStepDescription,ViewPosition,Rows,Columns,StudyDate,StudyTime,ProcedureCodeSequence_CodeMeaning,ViewCodeSequence_CodeMeaning,PatientOrientationCodeSequence_CodeMeaning
+147044,6e365e1b-1fd1474e-9ae86e36-3d15df71-cca292fc,13920236,52131917,CHEST (PA AND LAT),PA,2544,3056,22020613,221337.625,CHEST (PA AND LAT),postero-anterior,Erect
+190275,dbb34c2a-2afafdd8-4bc75849-728e93fe-6f2bd8c9,15068859,59875275,CHEST (PA AND LAT),PA,2544,3056,21190811,13946.875,CHEST (PA AND LAT),postero-anterior,Erect
+257734,54820810-1ff223c5-79827824-1f8f9c48-d8255c94,16844011,55907494,Performed Desc,PA,2021,2021,21500110,143117.0,CHEST (PA AND LAT),postero-anterior,Recumbent
+278602,5901097e-a1e21a1d-8d9fda9d-1bcf9ba6-80431bc9,17385551,58352835,CHEST (PA AND LAT),PA,3056,2544,21650316,60443.171,CHEST (PA AND LAT),postero-anterior,Erect
